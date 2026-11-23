@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MORANFLIX • 40th Birthday Special</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #141414;
+      --card-bg: #1f1f1f;
+      --netflix-red: #e50914;
+      --netflix-red-dark: #b20710;
+      --netflix-red-hover: #f40612;
+      --text-main: #ffffff;
+      --text-muted: #a3a3a3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =========================================
+       CINEMATIC INTRO OVERLAY (M -> MORANFLIX)
+       ========================================= */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      background-color: #000000;
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #intro-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #start-experience-btn {
+      background: transparent;
+      border: 2px solid rgba(229, 9, 20, 0.8);
+      color: #fff;
+      padding: 1rem 2.6rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(229, 9, 20, 0.35);
+      transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    #start-experience-btn:hover {
+      background-color: var(--netflix-red);
+      transform: scale(1.06);
+      box-shadow: 0 0 40px rgba(229, 9, 20, 0.75);
+    }
+
+    #logo-animation-stage {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #logo-animation-stage.playing {
+      display: flex;
+    }
+
+    .netflix-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 13vw, 10rem);
+      font-weight: 900;
+      color: var(--netflix-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 6px;
+      text-shadow: 0 10px 30px rgba(229, 9, 20, 0.45);
+      user-select: none;
+      animation: wordmarkExit 0.65s ease-in 2.65s forwards;
+    }
+
+    .letter-m {
+      display: inline-block;
+      position: relative;
+      transform-origin: center center;
+      animation: mPopAndSettle 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      text-shadow:
+        -3px 0 0 var(--netflix-red-dark),
+        0 12px 35px rgba(229, 9, 20, 0.75);
+    }
+
+    .letters-rest {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 0;
+      opacity: 0;
+      animation: revealRest 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.95s forwards;
+    }
+
+    .light-sweep {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(229, 9, 20, 0.22) 0%, transparent 65%);
+      opacity: 0;
+      pointer-events: none;
+      animation: glowPulse 3.2s ease-out forwards;
+    }
+
+    .skip-intro-btn {
+      position: absolute;
+      bottom: 2.2rem;
+      right: 2.5rem;
+      background: rgba(20, 20, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #e5e5e5;
+      padding: 0.55rem 1.2rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .skip-intro-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+      color: #fff;
+    }
+
+    @keyframes mPopAndSettle {
+      0% { transform: scale(0.35); opacity: 0; filter: brightness(1.6); }
+      45% { transform: scale(1.25); opacity: 1; filter: brightness(1.3); }
+      100% { transform: scale(1); opacity: 1; filter: brightness(1); }
+    }
+
+    @keyframes wordmarkExit {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.12); opacity: 0; }
+    }
+
+    @keyframes revealRest {
+      0% { max-width: 0; opacity: 0; transform: translateX(-18px); }
+      30% { opacity: 1; }
+      100% { max-width: 900px; opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0; transform: scale(0.6); }
+      25% { opacity: 1; transform: scale(1.1); }
+      80% { opacity: 0.7; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    /* =========================================
+       WHO'S WATCHING OVERLAY
+       ========================================= */
+    #profile-gate {
+      position: fixed;
+      inset: 0;
+      background-color: var(--bg-color);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #profile-gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gate-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .profile-avatar {
+      width: 165px;
+      height: 165px;
+      border-radius: 8px;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 3px solid transparent;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      background-color: #333;
+    }
+
+    .profile-card:hover .profile-avatar {
+      border-color: #fff;
+      transform: scale(1.06);
+    }
+
+    .profile-name {
+      margin-top: 1rem;
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      transition: color 0.25s ease;
+    }
+
+    .profile-card:hover .profile-name {
+      color: #fff;
+    }
+
+    /* =========================================
+       MAIN APP UI
+       ========================================= */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 4%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0));
+      transition: background-color 0.3s ease;
+    }
+
+    header.scrolled {
+      background-color: #141414;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--netflix-red);
+      font-size: 2.3rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .nav-tags {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-tag-btn {
+      background: none;
+      border: none;
+      color: #e5e5e5;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .nav-tag-btn:hover, .nav-tag-btn.active {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Hero Banner */
+    .hero {
+      position: relative;
+      height: 78vh;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      padding: 0 4%;
+      background-size: cover;
+      background-position: center 25%;
+      background-color: #222;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--bg-color) 8%, rgba(20,20,20,0.4) 50%, rgba(20,20,20,0.7) 100%),
+                  linear-gradient(to right, rgba(20,20,20,0.85) 15%, rgba(20,20,20,0) 70%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin-top: 4rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      color: var(--netflix-red);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-meta {
+      color: #46d369;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #e5e5e5;
+      margin-bottom: 1.8rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-play {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-play:hover {
+      background-color: rgba(255,255,255,0.75);
+    }
+
+    /* Rows Container */
+    main {
+      position: relative;
+      z-index: 5;
+      margin-top: -60px;
+      padding-bottom: 4rem;
+    }
+
+    .row {
+      margin-bottom: 2.5rem;
+      padding: 0 4%;
+      position: relative;
+    }
+
+    .row-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: #e5e5e5;
+    }
+
+    .row-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .row-scroller {
+      display: flex;
+      gap: 0.8rem;
+      overflow-x: auto;
+      padding: 0.8rem 0 1.2rem 0;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      width: 100%;
+    }
+
+    .row-scroller::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .row-scroller::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 3px;
+    }
+
+    .row-scroller.grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      overflow-x: visible;
+    }
+
+    .row-scroller.grid-view .clip-card {
+      flex: unset;
+      width: 100%;
+    }
+
+    .scroll-arrow {
+      position: absolute;
+      top: 0.8rem;
+      bottom: 1.2rem;
+      width: 44px;
+      background: rgba(20, 20, 20, 0.72);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease, background-color 0.2s ease;
+    }
+
+    .row-wrapper:hover .scroll-arrow {
+      opacity: 1;
+    }
+
+    .scroll-arrow:hover {
+      background: rgba(20, 20, 20, 0.92);
+      color: var(--netflix-red);
+    }
+
+    .scroll-arrow.left {
+      left: -10px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .scroll-arrow.right {
+      right: -10px;
+      border-radius: 6px 0 0 6px;
+    }
+
+    /* Clip / Series Card */
+    .clip-card {
+      flex: 0 0 280px;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #262626 0%, #161616 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .clip-card:hover {
+      transform: scale(1.08);
+      z-index: 10;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+
+    .clip-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .series-badge {
+      position: absolute;
+      top: 0.65rem;
+      left: 0.65rem;
+      background: rgba(229, 9, 20, 0.92);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 0.22rem 0.55rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 3;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    .clip-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 10%, rgba(0,0,0,0.2) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0.9rem;
+    }
+
+    .clip-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .clip-sub {
+      font-size: 0.85rem;
+      color: #46d369;
+      font-weight: 500;
+    }
+
+    .clip-tags {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .play-icon-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 48px;
+      height: 48px;
+      background: rgba(0,0,0,0.65);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      font-size: 1.2rem;
+      padding-left: 3px;
+    }
+
+    .clip-card:hover .play-icon-badge {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* =========================================
+       SERIES EPISODES MODAL
+       ========================================= */
+    #series-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.88);
+      z-index: 1800;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 2.5rem 1rem;
+    }
+
+    #series-modal.open {
+      display: flex;
+    }
+
+    .series-dialog {
+      width: 100%;
+      max-width: 880px;
+      background-color: #181818;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.95);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      margin: auto;
+    }
+
+    .series-banner {
+      position: relative;
+      height: 280px;
+      background: linear-gradient(135deg, #2b2b2b 0%, #141414 100%);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+    }
+
+    .series-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #181818 5%, rgba(24,24,24,0.35) 65%, rgba(0,0,0,0.5) 100%);
+    }
+
+    .series-close-btn {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .series-close-btn:hover {
+      background: var(--netflix-red);
+      border-color: var(--netflix-red);
+    }
+
+    .series-header-info {
+      position: relative;
+      z-index: 3;
+    }
+
+    .series-header-badge {
+      color: var(--netflix-red);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .series-header-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .series-header-meta {
+      color: #46d369;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .episodes-container {
+      padding: 1.5rem 2rem 2.2rem;
+    }
+
+    .episodes-heading {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #e5e5e5;
+    }
+
+    .episode-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem;
+      border-radius: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .episode-row:hover {
+      background-color: #262626;
+    }
+
+    .episode-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      width: 28px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .episode-thumb-box {
+      width: 150px;
+      aspect-ratio: 16 / 9;
+      border-radius: 5px;
+      overflow: hidden;
+      background: #2b2b2b;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .episode-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .episode-play-mini {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.65);
+      border: 1.5px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      padding-left: 2px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .episode-row:hover .episode-play-mini {
+      opacity: 1;
+    }
+
+    .episode-details {
+      flex: 1;
+    }
+
+    .episode-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .episode-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================================
+       VIDEO PLAYER MODAL
+       ========================================= */
+    #player-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.96);
+      z-index: 2500;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    #player-modal.open {
+      display: flex;
+    }
+
+    .modal-header {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      gap: 1rem;
+    }
+
+    .modal-info h2 {
+      font-size: 1.5rem;
+    }
+
+    .modal-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .btn-modal {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-modal:hover {
+      background: #444;
+    }
+
+    .btn-close {
+      background: var(--netflix-red);
+      border-color: var(--netflix-red);
+      font-weight: 700;
+    }
+
+    .btn-close:hover {
+      background: var(--netflix-red-hover);
+    }
+
+    .iframe-wrapper {
+      width: 100%;
+      max-width: 1100px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      .clip-card { flex: 0 0 210px; }
+      .hero { height: 65vh; }
+      .nav-tags { display: none; }
+      .modal-header { flex-direction: column; align-items: flex-start; }
+      .modal-controls { width: 100%; justify-content: flex-end; }
+      .episode-thumb-box { width: 110px; }
+      .episodes-container { padding: 1.2rem; }
+      .scroll-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro Audio (resolved dynamically from Drive AppData/tada.mp3) -->
+  <audio id="intro-audio" preload="auto"></audio>
+
+  <!-- 1. Cinematic M -> MORANFLIX Intro Screen -->
+  <div id="intro-screen">
+    <button id="start-experience-btn" onclick="startIntro()">▶ ENTER MORANFLIX</button>
+
+    <div id="logo-animation-stage">
+      <div class="light-sweep"></div>
+      <div class="netflix-wordmark">
+        <span class="letter-m">M</span><span class="letters-rest">ORANFLIX</span>
+      </div>
+      <button class="skip-intro-btn" onclick="finishIntro()">Skip Intro</button>
+    </div>
+  </div>
+
+  <!-- 2. Profile Selection Gate -->
+  <div id="profile-gate">
+    <h1 class="gate-title">Choose Your Profile</h1>
+    <div class="profile-card" onclick="enterApp()">
+      <img id="gate-avatar" class="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Moran" />
+      <span id="gate-name" class="profile-name">Moran</span>
+    </div>
+  </div>
+
+  <!-- 3. Navbar -->
+  <header id="navbar">
+    <div class="nav-left">
+      <div class="logo" onclick="filterByTag('ALL')">MORANFLIX</div>
+      <nav class="nav-tags" id="nav-tags"></nav>
+    </div>
+  </header>
+
+  <!-- 4. Hero Section -->
+  <section class="hero" id="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge"></div>
+      <h1 class="hero-title" id="hero-title"></h1>
+      <div class="hero-meta" id="hero-meta"></div>
+      <p class="hero-desc" id="hero-desc"></p>
+      <div class="hero-buttons">
+        <button class="btn-play" onclick="playFirstItem()">
+          <span>▶</span> Play First Clip
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Dynamic Categories -->
+  <main id="rows-container"></main>
+
+  <!-- 6. Series Episodes Modal -->
+  <div id="series-modal" onclick="if(event.target === this) closeSeriesModal()">
+    <div class="series-dialog">
+      <button class="series-close-btn" onclick="closeSeriesModal()">✕</button>
+      <div class="series-banner" id="series-banner">
+        <div class="series-header-info">
+          <div class="series-header-badge">MORANFLIX SERIES</div>
+          <h2 class="series-header-title" id="series-modal-title"></h2>
+          <div class="series-header-meta" id="series-modal-meta"></div>
+        </div>
+      </div>
+      <div class="episodes-container">
+        <div class="episodes-heading">Episodes</div>
+        <div id="episodes-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Video Player Modal -->
+  <div id="player-modal">
+    <div class="modal-header">
+      <div class="modal-info">
+        <h2 id="modal-title"></h2>
+        <p id="modal-subtitle"></p>
+      </div>
+      <div class="modal-controls">
+        <button class="btn-modal" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        <button class="btn-modal" id="next-clip-btn" onclick="playNextInQueue()">Next Clip ⏭</button>
+        <button class="btn-modal btn-close" onclick="closePlayerModal()">✕ Close</button>
+      </div>
+    </div>
+    <div class="iframe-wrapper" id="iframe-container">
+      <iframe id="video-frame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwATotFt2Qaki4zlEa7FoWX_2wtSwZrOfg4IocrRvob__qlZbnKJIDNwPR8fPaekllM4Q/exec";
+    const DRIVE_ROOT_FOLDER = "https://drive.google.com/drive/folders/15mV44pjDJ7XgUePFp9JNTf591sFYMAd_?usp=drive_link";
+    const CACHE_KEY = "moranflix_appdata_cache_v2";
+
+    let catalogItems = [];
+    let activePlaylist = [];
+    let activeQueueIndex = 0;
+    let currentFilterTag = "ALL";
+    let introTimer = null;
+
+    const DEFAULT_HERO = {
+      profileName: "Moran",
+      profileAvatar: "moran.jpg",
+      bannerImage: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1600&q=80",
+      badge: "MORANFLIX ORIGINAL • 40TH SPECIAL",
+      title: "Season 40: The Legend Continues",
+      meta: "99% Match • 2026 • All Ages • HD",
+      description: "Four decades of unforgettable moments, laughter, and love. Friends and family from around the world gather for one iconic birthday special."
+    };
+
+    const BUILTIN_DRIVE_INDEX = {
+      "neta.mp4": "1Ky5i1C9YJYGGrzU5ep1qPub41WqmusLC",
+      "neta.jpg": "1HWM3E3DxXRyrHFcKH_rx_75k1Ibw-XsR",
+      "amit.mp4": "1f_Fv18llIXkr5XPBSHLFTgZ5rQ17xFIj",
+      "amit.jpg": "1oLHDblg5fMWfTv76V7ow3xPetGo5Ir17",
+      "tidhar.mp4": "1agGjXzgG1TcW3zK-4MtjfoUKUrj0laZU",
+      "tidhar.jpg": "18cxdOhs5rOtDQ2tq1dOgaVM0Kl7C5T-8",
+      "netherlands 2010.mp4": "1vOPaz0BDW_JXTzU0OSFNr7Bjnsq5LVwd",
+      "netherlands 2010.jpg": "1EpCoQiwhZSpN2_rvrYnYwSWvL7AaZwTN",
+      "army.mp4": "1LSVvltDGcTAnENgs3Kx0P77hsRxMs3q7",
+      "army.jpg": "1Sz4h5DM6CrsVCWHPXmrUBTZbK8zN7FUG",
+      "berlin 2011.mp4": "1ELt1rVDFf0Qmiu0-uz13PV4CBVqoHgVy",
+      "berlin 2011.jpg": "1hphVg4JC3kLGg2aDfRFt7Lcj6NganmwN",
+      "burgas 2009.mp4": "1JmBP5P5Qk2Rpdq3mIWrv5gS3aJXCnOWK",
+      "burgas 2009.jpg": "1t7K-W8FKUXPJz0SgBZ6v1zxpx2qt_T44",
+      "paris 2014.mp4": "16-aYNZdDEaY-xTZF1Zmrz8Ar_P1DhSXT",
+      "paris 2014.jpg": "18CyKF7-auOeCzdWOVFMquMJepJjHJzZE",
+      "perrigo.mp4": "1vIS9fS_S3vuIvZPgqxgbeTUr5V4dOBDq",
+      "perrigo.jpg": "1p-nGkewiXmfKicg6UxKtZ-0jF0YCMY7Q",
+      "1 second, everyday.mp4": "1PtQTx8G13YreBDDdUvyaFOS_IYdYrz7_",
+      "1 second, everyday.jpg": "1fItAeHDJfY9exloIi4iorSOw3AMVEDJV",
+      "1 year anniversary.mp4": "1JuvyK13ajwlxG3IdgXLiFyuLiKIx8Xdg",
+      "1 year anniversary.jpg": "1tZM3HEZMlvQSMoKH-gXfwJh7VuaDQJJe"
+    };
+
+    /* =========================================
+       INTRO SEQUENCE
+       ========================================= */
+    function startIntro() {
+      document.getElementById('start-experience-btn').style.display = 'none';
+      const stage = document.getElementById('logo-animation-stage');
+      stage.classList.add('playing');
+
+      const audio = document.getElementById('intro-audio');
+      if (audio.src) {
+        audio.currentTime = 0;
+        audio.play().catch(err => console.warn('Audio play failed:', err));
+      }
+
+      introTimer = setTimeout(() => {
+        finishIntro();
+      }, 3150);
+    }
+
+    function finishIntro() {
+      if (introTimer) clearTimeout(introTimer);
+      const audio = document.getElementById('intro-audio');
+      audio.pause();
+      audio.currentTime = 0;
+      document.getElementById('intro-screen').classList.add('fade-out');
+    }
+
+    /* =========================================
+       CSV PARSER & SERIES GROUPING
+       ========================================= */
+    function parseContentCsvToCatalog(csvText, driveIndex) {
+      if (!csvText) return [];
+      const items = [];
+      const seriesMap = new Map();
+      const lines = csvText.split(/\r?\n/);
+
+      for (let rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#')) continue;
+
+        const cols = [];
+        let current = '';
+        let inQuotes = false;
+        let inBrackets = false;
+
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            inQuotes = !inQuotes;
+          } else if (ch === '[' && !inQuotes) {
+            inBrackets = true;
+            current += ch;
+          } else if (ch === ']' && !inQuotes) {
+            inBrackets = false;
+            current += ch;
+          } else if (ch === ',' && !inQuotes && !inBrackets) {
+            cols.push(current.trim());
+            current = '';
+          } else {
+            current += ch;
+          }
+        }
+        cols.push(current.trim());
+
+        const title = (cols[0] || '').replace(/^"|"$/g, '').trim();
+        if (!title) continue;
+
+        const subtitle = (cols[1] || '').replace(/^"|"$/g, '').trim();
+        const rawTags = (cols[2] || '').replace(/^\[|\]$/g, '').trim();
+        const tags = rawTags
+          ? rawTags.split(',').map(t => t.trim()).filter(Boolean)
+          : [];
+
+        const videoExt = (cols[3] || '').replace(/^\./, '').trim() || 'mp4';
+        const thumbExt = (cols[4] || '').replace(/^\./, '').trim() || 'jpg';
+        const seriesName = (cols[5] || '').replace(/^"|"$/g, '').trim();
+
+        const videoFilename = `${title}.${videoExt}`.toLowerCase();
+        const thumbFilename = `${title}.${thumbExt}`.toLowerCase();
+
+        const clipObj = {
+          title,
+          subtitle,
+          tags,
+          seriesName,
+          videoFileId: driveIndex[videoFilename] || null,
+          thumbFileId: driveIndex[thumbFilename] || null
+        };
+
+        if (!seriesName) {
+          items.push({
+            type: 'single',
+            title: clipObj.title,
+            subtitle: clipObj.subtitle,
+            tags: clipObj.tags,
+            thumbFileId: clipObj.thumbFileId,
+            clip: clipObj
+          });
+        } else {
+          const seriesKey = seriesName.toLowerCase();
+          if (!seriesMap.has(seriesKey)) {
+            const dedicatedCoverId = driveIndex[`${seriesKey}.jpg`] || driveIndex[`${seriesKey}.png`] || null;
+            const seriesItem = {
+              type: 'series',
+              title: seriesName,
+              tags: [...clipObj.tags],
+              thumbFileId: dedicatedCoverId || clipObj.thumbFileId,
+              episodes: [clipObj]
+            };
+            seriesMap.set(seriesKey, seriesItem);
+            items.push(seriesItem);
+          } else {
+            const existingSeries = seriesMap.get(seriesKey);
+            existingSeries.episodes.push(clipObj);
+            if (!existingSeries.thumbFileId && clipObj.thumbFileId) {
+              existingSeries.thumbFileId = clipObj.thumbFileId;
+            }
+            clipObj.tags.forEach(t => {
+              if (!existingSeries.tags.includes(t)) {
+                existingSeries.tags.push(t);
+              }
+            });
+          }
+        }
+      }
+
+      return items;
+    }
+
+    function extractDriveId(url) {
+      if (!url) return null;
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+      return match ? match[1] : null;
+    }
+
+    // Resolves either a full Drive URL, an external URL, or a filename inside Drive (e.g., "moran.jpg")
+    function resolveAssetUrl(src, driveIndex, sizeSuffix = "=w1600") {
+      if (!src) return '';
+      const trimmed = src.trim();
+      const driveIdFromUrl = extractDriveId(trimmed);
+      if (driveIdFromUrl) {
+        return `https://lh3.googleusercontent.com/d/${driveIdFromUrl}${sizeSuffix}`;
+      }
+      if (trimmed.startsWith('http')) {
+        return trimmed;
+      }
+      const cleanName = trimmed.replace(/^\.?\//, '').toLowerCase();
+      if (driveIndex[cleanName]) {
+        return `https://lh3.googleusercontent.com/d/${driveIndex[cleanName]}${sizeSuffix}`;
+      }
+      return trimmed;
+    }
+
+    function getCache() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function saveCache(data) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      } catch (_) {}
+    }
+
+    function applyState(profilesData, csvText, driveIndex) {
+      const hero = { ...DEFAULT_HERO, ...(profilesData && profilesData.hero ? profilesData.hero : {}) };
+
+      // Resolve profile picture (e.g., "moran.jpg" from Drive AppData)
+      const avatarUrl = resolveAssetUrl(hero.profileAvatar || "moran.jpg", driveIndex, "=w600");
+      if (avatarUrl) {
+        document.getElementById('gate-avatar').src = avatarUrl;
+      }
+      document.getElementById('gate-name').textContent = hero.profileName;
+      document.getElementById('hero-section').style.backgroundImage = `url('${resolveAssetUrl(hero.bannerImage, driveIndex, "=w1600")}')`;
+      document.getElementById('hero-badge').textContent = hero.badge;
+      document.getElementById('hero-title').textContent = hero.title;
+      document.getElementById('hero-meta').textContent = hero.meta;
+      document.getElementById('hero-desc').textContent = hero.description;
+
+      // Resolve intro audio (tada.mp3 from Drive AppData)
+      const tadaId = driveIndex["tada.mp3"];
+      const audioEl = document.getElementById('intro-audio');
+      if (tadaId) {
+        const driveAudioUrl = `https://drive.google.com/uc?export=download&id=${tadaId}`;
+        if (audioEl.src !== driveAudioUrl) {
+          audioEl.src = driveAudioUrl;
+        }
+      }
+
+      if (csvText) {
+        catalogItems = parseContentCsvToCatalog(csvText, driveIndex);
+        buildNavTags();
+        renderRows(currentFilterTag);
+      }
+    }
+
+    async function init() {
+      // 1. Instant render from localStorage cache if available
+      const cached = getCache();
+      if (cached) {
+        const cachedIndex = { ...BUILTIN_DRIVE_INDEX, ...(cached.index || {}) };
+        applyState(cached.profiles, cached.csv, cachedIndex);
+      }
+
+      // 2. Fetch live AppData (profiles.json, content.csv, index) from Google Apps Script
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        if (!res.ok) throw new Error(`Apps Script HTTP ${res.status}`);
+        const payload = await res.json();
+
+        // Support both new payload format ({ index, profiles, csv }) and legacy flat index
+        const rawIndex = payload.index ? payload.index : payload;
+        const mergedIndex = { ...BUILTIN_DRIVE_INDEX, ...rawIndex };
+        const profilesData = payload.profiles || (cached && cached.profiles) || null;
+        const csvText = payload.csv || (cached && cached.csv) || null;
+
+        saveCache({ index: mergedIndex, profiles: profilesData, csv: csvText });
+        applyState(profilesData, csvText, mergedIndex);
+
+        if (!csvText) {
+          document.getElementById('rows-container').innerHTML =
+            `<div style="padding: 2rem 4%; color: #e50914; background: rgba(0,0,0,0.7); border-radius: 8px; margin: 0 4%;">
+              <h3>content.csv not found in Drive</h3>
+              <p style="color: #ccc; margin-top: 0.5rem;">Make sure <code>content.csv</code> is uploaded inside <code>40_Clip/AppData</code> in Google Drive and that your Apps Script deployment was updated to a New Version.</p>
+            </div>`;
+        }
+      } catch (err) {
+        console.error('Error syncing with Google Drive:', err);
+        if (!cached) {
+          document.getElementById('rows-container').innerHTML =
+            `<div style="padding: 2rem 4%; color: #e50914; background: rgba(0,0,0,0.7); border-radius: 8px; margin: 0 4%;">
+              <h3>Error connecting to Google Drive AppData</h3>
+              <p style="color: #888; font-size: 0.85rem; margin-top: 0.5rem;">Details: ${err.message}</p>
+            </div>`;
+        }
+      }
+    }
+
+    function enterApp() {
+      document.getElementById('profile-gate').classList.add('hidden');
+    }
+
+    function getAllUniqueTags() {
+      const tagSet = new Set();
+      catalogItems.forEach(item => (item.tags || []).forEach(t => tagSet.add(t)));
+      return Array.from(tagSet);
+    }
+
+    function buildNavTags() {
+      const nav = document.getElementById('nav-tags');
+      const tags = getAllUniqueTags();
+      nav.innerHTML = `<button class="nav-tag-btn ${currentFilterTag === 'ALL' ? 'active' : ''}" data-tag="ALL" onclick="filterByTag('ALL')">All</button>`;
+      tags.forEach(tag => {
+        const activeClass = currentFilterTag === tag ? 'active' : '';
+        nav.innerHTML += `<button class="nav-tag-btn ${activeClass}" data-tag="${tag}" onclick="filterByTag('${tag}')">${tag}</button>`;
+      });
+    }
+
+    function filterByTag(selectedTag) {
+      currentFilterTag = selectedTag;
+      document.querySelectorAll('.nav-tag-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tag === selectedTag);
+      });
+      renderRows(selectedTag);
+    }
+
+    function scrollRow(btn, direction) {
+      const scroller = btn.parentElement.querySelector('.row-scroller');
+      if (!scroller) return;
+      const scrollAmount = scroller.clientWidth * 0.78;
+      scroller.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
+    function renderRows(filterTag) {
+      const container = document.getElementById('rows-container');
+      container.innerHTML = '';
+
+      const isSingleCategory = filterTag !== 'ALL';
+      const tagsToRender = isSingleCategory ? [filterTag] : getAllUniqueTags();
+
+      if (tagsToRender.length === 0 && catalogItems.length > 0) {
+        tagsToRender.push('All Wishes');
+      }
+
+      tagsToRender.forEach(tag => {
+        const matchingItems = catalogItems
+          .map((item, index) => ({ ...item, originalIndex: index }))
+          .filter(item => {
+            if (tag === 'All Wishes') return true;
+            const itemTags = item.tags || [];
+            if (!isSingleCategory) {
+              return itemTags[0] === tag;
+            }
+            return itemTags.includes(tag);
+          });
+
+        if (matchingItems.length === 0) return;
+
+        const rowEl = document.createElement('section');
+        rowEl.className = 'row';
+
+        const cardsHtml = matchingItems.map(item => {
+          const tagsText = (item.tags || []).join(' • ');
+          const imgHtml = item.thumbFileId
+            ? `<img class="clip-thumb" src="https://lh3.googleusercontent.com/d/${item.thumbFileId}=w800" alt="${item.title}" loading="lazy" onerror="this.remove()" />`
+            : '';
+
+          const isSeries = item.type === 'series';
+          const badgeHtml = isSeries
+            ? `<div class="series-badge">Series • ${item.episodes.length} Episodes</div>`
+            : '';
+          const subText = isSeries
+            ? `${item.episodes.length} Episodes`
+            : (item.subtitle || '');
+
+          return `
+            <div class="clip-card" onclick="handleCardClick(${item.originalIndex})">
+              ${badgeHtml}
+              ${imgHtml}
+              <div class="play-icon-badge">${isSeries ? '☰' : '▶'}</div>
+              <div class="clip-overlay">
+                <div class="clip-title">${item.title}</div>
+                <div class="clip-sub">${subText}</div>
+                <div class="clip-tags">${tagsText}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const scrollerClass = isSingleCategory ? 'row-scroller grid-view' : 'row-scroller';
+        const arrowsHtml = isSingleCategory
+          ? ''
+          : `<button class="scroll-arrow left" onclick="scrollRow(this, -1)" aria-label="Scroll left">‹</button>
+             <button class="scroll-arrow right" onclick="scrollRow(this, 1)" aria-label="Scroll right">›</button>`;
+
+        rowEl.innerHTML = `
+          <h2 class="row-title">${tag}</h2>
+          <div class="row-wrapper">
+            ${arrowsHtml}
+            <div class="${scrollerClass}">${cardsHtml}</div>
+          </div>
+        `;
+        container.appendChild(rowEl);
+      });
+    }
+
+    function handleCardClick(index) {
+      const item = catalogItems[index];
+      if (!item) return;
+
+      if (item.type === 'series') {
+        openSeriesModal(item);
+      } else {
+        const standaloneQueue = catalogItems
+          .filter(i => i.type === 'single')
+          .map(i => i.clip);
+        const queueIdx = standaloneQueue.findIndex(c => c.title === item.clip.title);
+        openPlayerWithQueue(standaloneQueue, Math.max(0, queueIdx), false);
+      }
+    }
+
+    /* =========================================
+       SERIES MODAL FUNCTIONS
+       ========================================= */
+    function openSeriesModal(seriesItem) {
+      document.getElementById('series-modal-title').textContent = seriesItem.title;
+      document.getElementById('series-modal-meta').textContent =
+        `${seriesItem.episodes.length} Episodes • ${(seriesItem.tags || []).join(' • ')}`;
+
+      const bannerEl = document.getElementById('series-banner');
+      if (seriesItem.thumbFileId) {
+        bannerEl.style.backgroundImage = `url('https://lh3.googleusercontent.com/d/${seriesItem.thumbFileId}=w1200')`;
+      } else {
+        bannerEl.style.backgroundImage = 'linear-gradient(135deg, #2b2b2b 0%, #141414 100%)';
+      }
+
+      const listEl = document.getElementById('episodes-list');
+      listEl.innerHTML = seriesItem.episodes.map((ep, idx) => {
+        const thumbHtml = ep.thumbFileId
+          ? `<img src="https://lh3.googleusercontent.com/d/${ep.thumbFileId}=w400" alt="${ep.title}" loading="lazy" onerror="this.remove()" />`
+          : '';
+
+        return `
+          <div class="episode-row" onclick="playSeriesEpisode('${seriesItem.title.replace(/'/g, "\\'")}', ${idx})">
+            <div class="episode-num">${idx + 1}</div>
+            <div class="episode-thumb-box">
+              ${thumbHtml}
+              <div class="episode-play-mini">▶</div>
+            </div>
+            <div class="episode-details">
+              <div class="episode-title">${ep.title}</div>
+              <div class="episode-sub">${ep.subtitle || `Episode ${idx + 1}`}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('series-modal').classList.add('open');
+    }
+
+    function closeSeriesModal() {
+      document.getElementById('series-modal').classList.remove('open');
+    }
+
+    function playSeriesEpisode(seriesTitle, epIndex) {
+      const seriesItem = catalogItems.find(i => i.type === 'series' && i.title === seriesTitle);
+      if (!seriesItem) return;
+      openPlayerWithQueue(seriesItem.episodes, epIndex, true);
+    }
+
+    /* =========================================
+       VIDEO PLAYER MODAL FUNCTIONS
+       ========================================= */
+    function openPlayerWithQueue(queue, startIndex, isSeriesPlayback) {
+      if (!queue || queue.length === 0) return;
+      activePlaylist = queue;
+      activeQueueIndex = startIndex;
+
+      const nextBtn = document.getElementById('next-clip-btn');
+      nextBtn.textContent = isSeriesPlayback ? 'Next Episode ⏭' : 'Next Clip ⏭';
+
+      loadActiveClip();
+      document.getElementById('player-modal').classList.add('open');
+    }
+
+    function loadActiveClip() {
+      const clip = activePlaylist[activeQueueIndex];
+      if (!clip) return;
+
+      const prefix = clip.seriesName ? `${clip.seriesName} • ` : '';
+      document.getElementById('modal-title').textContent = prefix + clip.title;
+      document.getElementById('modal-subtitle').textContent = clip.subtitle || '';
+
+      const embedUrl = clip.videoFileId
+        ? `https://drive.google.com/file/d/${clip.videoFileId}/preview`
+        : DRIVE_ROOT_FOLDER;
+
+      document.getElementById('video-frame').src = embedUrl;
+    }
+
+    function closePlayerModal() {
+      document.getElementById('player-modal').classList.remove('open');
+      document.getElementById('video-frame').src = '';
+    }
+
+    function playFirstItem() {
+      if (catalogItems.length > 0) {
+        handleCardClick(0);
+      }
+    }
+
+    function playNextInQueue() {
+      if (activePlaylist.length === 0) return;
+      activeQueueIndex = (activeQueueIndex + 1) % activePlaylist.length;
+      loadActiveClip();
+    }
+
+    function toggleFullscreen() {
+      const elem = document.getElementById('iframe-container');
+      if (!document.fullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('player-modal').classList.contains('open')) {
+          closePlayerModal();
+        } else if (document.getElementById('series-modal').classList.contains('open')) {
+          closeSeriesModal();
+        }
+      }
+      if ((e.key === 'Enter' || e.key === ' ') && document.getElementById('start-experience-btn').style.display !== 'none') {
+        e.preventDefault();
+        startIntro();
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>
