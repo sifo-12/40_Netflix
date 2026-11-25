@@ -532,34 +532,40 @@
       opacity: 1;
     }
 
-    /* Layer 1: Blurred full-width ambient backdrop (no black bars) */
+    /* Layer 1: Blurred full-width ambient backdrop */
     .hero-bg-blur {
       position: absolute;
-      inset: -30px;
+      inset: -35px;
       background-size: cover;
       background-position: center 25%;
-      filter: blur(26px) brightness(0.45) saturate(1.2);
-      transform: scale(1.08);
+      filter: blur(28px) brightness(0.42) saturate(1.25);
+      transform: scale(1.1);
     }
 
-    /* Layer 2: Full uncropped image with gentle Ken Burns zoom */
+    /* Layer 2: Centered full uncropped image with soft feathered borders on all 4 sides */
     .hero-bg-sharp {
       position: absolute;
-      top: 0;
-      right: 2%;
-      bottom: 0;
-      width: 65%;
+      top: 4%;
+      bottom: 4%;
+      left: 50%;
+      width: min(82%, 1100px);
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: center right;
-      transform: scale(1.06);
+      background-position: center center;
+      transform: translateX(-50%) scale(1.06);
       transition: transform 7.5s ease-out;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 18%, black 92%, transparent 100%);
-      mask-image: linear-gradient(to right, transparent 0%, black 18%, black 92%, transparent 100%);
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+      mask-composite: intersect;
     }
 
     .hero-bg-layer.active .hero-bg-sharp {
-      transform: scale(1);
+      transform: translateX(-50%) scale(1);
     }
 
     .hero::after {
@@ -567,8 +573,8 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: linear-gradient(to top, var(--bg-color) 8%, rgba(20,20,20,0.25) 45%, rgba(20,20,20,0.65) 100%),
-                  linear-gradient(to right, rgba(20,20,20,0.92) 22%, rgba(20,20,20,0.2) 55%, rgba(20,20,20,0) 100%);
+      background: linear-gradient(to top, var(--bg-color) 8%, rgba(20,20,20,0.25) 45%, rgba(20,20,20,0.6) 100%),
+                  linear-gradient(to right, rgba(20,20,20,0.92) 18%, rgba(20,20,20,0.28) 50%, rgba(20,20,20,0.12) 100%);
     }
 
     .hero-content {
@@ -1263,11 +1269,9 @@
       .clip-card { flex: 0 0 210px; }
       .hero { height: 68vh; }
       .hero-bg-sharp {
-        width: 100%;
-        right: 0;
-        background-position: center top;
-        -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+        width: 96%;
+        top: 2%;
+        bottom: 8%;
       }
       .hero-indicators { bottom: 72px; }
       .nav-tags { display: none; }
