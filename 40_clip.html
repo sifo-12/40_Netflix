@@ -543,29 +543,24 @@
     }
 
     /* Layer 2: Centered full uncropped image with soft feathered borders on all 4 sides */
+    /* Layer 2: Centered actual <img> so the mask hugs the exact image edges */
     .hero-bg-sharp {
       position: absolute;
-      top: 4%;
-      bottom: 4%;
+      top: 50%;
       left: 50%;
-      width: min(82%, 1100px);
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-      transform: translateX(-50%) scale(1.06);
+      max-width: 78%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transform: translate(-50%, -50%) scale(1.06);
       transition: transform 7.5s ease-out;
-      -webkit-mask-image:
-        linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
-      mask-composite: intersect;
+      -webkit-mask-image: radial-gradient(ellipse 68% 66% at 50% 50%, black 48%, rgba(0, 0, 0, 0.55) 72%, transparent 98%);
+      mask-image: radial-gradient(ellipse 68% 66% at 50% 50%, black 48%, rgba(0, 0, 0, 0.55) 72%, transparent 98%);
     }
 
     .hero-bg-layer.active .hero-bg-sharp {
-      transform: translateX(-50%) scale(1);
+      transform: translate(-50%, -50%) scale(1);
     }
 
     .hero::after {
@@ -1379,11 +1374,11 @@
   <section class="hero" id="hero-section">
     <div class="hero-bg-layer active" id="hero-bg-0">
       <div class="hero-bg-blur"></div>
-      <div class="hero-bg-sharp"></div>
+      <img class="hero-bg-sharp" alt="" />
     </div>
     <div class="hero-bg-layer" id="hero-bg-1">
       <div class="hero-bg-blur"></div>
-      <div class="hero-bg-sharp"></div>
+      <img class="hero-bg-sharp" alt="" />
     </div>
 
     <div class="hero-content" id="hero-content">
@@ -1517,7 +1512,7 @@
       const nextLayer = document.getElementById(`hero-bg-${nextLayerIndex}`);
 
       nextLayer.querySelector('.hero-bg-blur').style.backgroundImage = `url('${imageUrl}')`;
-      nextLayer.querySelector('.hero-bg-sharp').style.backgroundImage = `url('${imageUrl}')`;
+      nextLayer.querySelector('.hero-bg-sharp').src = imageUrl;
 
       requestAnimationFrame(() => {
         nextLayer.classList.add('active');
