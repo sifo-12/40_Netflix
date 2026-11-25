@@ -202,6 +202,14 @@
       margin-bottom: 2.5rem;
     }
 
+    .profiles-grid {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 1.5rem;
+    }
+
     .profile-card {
       display: flex;
       flex-direction: column;
@@ -225,15 +233,167 @@
       transform: scale(1.06);
     }
 
+    .default-avatar-box {
+      width: 165px;
+      height: 165px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+      border: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .profile-card:hover .default-avatar-box {
+      border-color: #fff;
+      transform: scale(1.06);
+    }
+
     .profile-name {
       margin-top: 1rem;
       font-size: 1.35rem;
       color: var(--text-muted);
       transition: color 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .profile-card:hover .profile-name {
       color: #fff;
+    }
+
+    .profile-lock-icon {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    /* =========================================
+       PASSWORD / PIN MODAL & LOCK NOTICE MODAL
+       ========================================= */
+    .auth-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 2800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .auth-modal-backdrop.open {
+      display: flex;
+    }
+
+    .auth-dialog {
+      background-color: #181818;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      padding: 2.2rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+    }
+
+    .auth-dialog-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .auth-dialog-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .auth-dialog-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.4rem;
+      line-height: 1.4;
+    }
+
+    .pin-input {
+      width: 100%;
+      background: #262626;
+      border: 2px solid #444;
+      border-radius: 6px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.5rem;
+      letter-spacing: 6px;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .pin-input:focus {
+      border-color: var(--netflix-red);
+    }
+
+    .pin-error {
+      color: var(--netflix-red);
+      font-size: 0.88rem;
+      font-weight: 600;
+      min-height: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .auth-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn-auth-primary {
+      flex: 1;
+      background: var(--netflix-red);
+      border: none;
+      color: #fff;
+      padding: 0.7rem 1.2rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-auth-primary:hover {
+      background: var(--netflix-red-hover);
+    }
+
+    .btn-auth-secondary {
+      flex: 1;
+      background: #2b2b2b;
+      border: 1px solid #555;
+      color: #e5e5e5;
+      padding: 0.7rem 1.2rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-auth-secondary:hover {
+      background: #3d3d3d;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake {
+      animation: shake 0.35s ease;
     }
 
     /* =========================================
@@ -290,6 +450,59 @@
     .nav-tag-btn:hover, .nav-tag-btn.active {
       color: #fff;
       font-weight: 700;
+    }
+
+    /* Top-Right Switch Profile Button */
+    .switch-profile-btn {
+      background: rgba(20, 20, 20, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem 0.3rem 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .switch-profile-btn:hover {
+      background: rgba(45, 45, 45, 0.9);
+      border-color: #fff;
+    }
+
+    .nav-avatar-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+    }
+
+    .nav-avatar-default {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .switch-caret {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .switch-profile-btn:hover .switch-caret {
+      color: #fff;
+      transform: translateY(1px);
     }
 
     /* Hero Banner */
@@ -396,6 +609,9 @@
       font-weight: 700;
       margin-bottom: 0.8rem;
       color: #e5e5e5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .row-wrapper {
@@ -493,6 +709,17 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.8);
     }
 
+    .clip-card.locked-card {
+      background: repeating-linear-gradient(
+        135deg,
+        #1e1e1e,
+        #1e1e1e 12px,
+        #161616 12px,
+        #161616 24px
+      );
+      border-color: rgba(229, 9, 20, 0.28);
+    }
+
     .clip-thumb {
       width: 100%;
       height: 100%;
@@ -514,6 +741,22 @@
       text-transform: uppercase;
       z-index: 3;
       box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    .locked-pill {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      background: rgba(0, 0, 0, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #e5e5e5;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 3;
     }
 
     .clip-overlay {
@@ -538,6 +781,10 @@
       font-weight: 500;
     }
 
+    .locked-card .clip-sub {
+      color: var(--netflix-red);
+    }
+
     .clip-tags {
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -546,9 +793,9 @@
 
     .play-icon-badge {
       position: absolute;
-      top: 50%;
+      top: 42%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
+      transform: translate(-50%, -50%) scale(0.85);
       width: 48px;
       height: 48px;
       background: rgba(0,0,0,0.65);
@@ -566,6 +813,13 @@
     .clip-card:hover .play-icon-badge {
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
+    }
+
+    .locked-card .play-icon-badge {
+      opacity: 0.85;
+      padding-left: 0;
+      border-color: rgba(255, 255, 255, 0.55);
+      font-size: 1.15rem;
     }
 
     /* =========================================
@@ -840,6 +1094,57 @@
       position: relative;
     }
 
+    /* Poster Cover inside Video Player before Play */
+    .player-poster-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background-color: #000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .player-poster-overlay.visible {
+      display: flex;
+    }
+
+    .player-poster-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.82);
+      transition: filter 0.25s ease, transform 0.35s ease;
+    }
+
+    .player-poster-overlay:hover img {
+      filter: brightness(0.95);
+      transform: scale(1.02);
+    }
+
+    .player-poster-play-btn {
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background-color: rgba(229, 9, 20, 0.92);
+      border: 3px solid #fff;
+      color: #fff;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 5px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .player-poster-overlay:hover .player-poster-play-btn {
+      transform: scale(1.1);
+      background-color: var(--netflix-red-hover);
+    }
+
     iframe {
       width: 100%;
       height: 100%;
@@ -855,13 +1160,17 @@
       .episode-thumb-box { width: 110px; }
       .episodes-container { padding: 1.2rem; }
       .scroll-arrow { display: none; }
+      .player-poster-play-btn { width: 60px; height: 60px; font-size: 1.5rem; }
+      .profiles-grid { gap: 1.5rem; }
+      .profile-avatar, .default-avatar-box { width: 130px; height: 130px; }
+      .switch-profile-name { display: none; }
     }
   </style>
 </head>
 <body>
 
   <!-- Intro Audio (resolved dynamically from Drive AppData/tada.mp3) -->
-  <audio id="intro-audio" preload="auto"></audio>
+  <audio id="intro-audio" src="tada.mp3" preload="auto"></audio>
 
   <!-- 1. Cinematic M -> MORANFLIX Intro Screen -->
   <div id="intro-screen">
@@ -878,10 +1187,58 @@
 
   <!-- 2. Profile Selection Gate -->
   <div id="profile-gate">
-    <h1 class="gate-title">Choose Your Profile</h1>
-    <div class="profile-card" onclick="enterApp()">
-      <img id="gate-avatar" class="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Moran" />
-      <span id="gate-name" class="profile-name">Moran</span>
+    <h1 class="gate-title">Who's Watching?</h1>
+    <div class="profiles-grid" id="profiles-grid">
+      <div class="profile-card" onclick="handleProfileSelect(0)">
+        <img class="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Moran" />
+        <span class="profile-name">Moran <span class="profile-lock-icon">🔒</span></span>
+      </div>
+      <div class="profile-card" onclick="handleProfileSelect(1)">
+        <div class="default-avatar-box">
+          <svg viewBox="0 0 100 100" width="95" height="95" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round">
+            <circle cx="35" cy="38" r="4" fill="#ffffff" stroke="none" />
+            <circle cx="65" cy="38" r="4" fill="#ffffff" stroke="none" />
+            <path d="M 30 62 Q 50 78 70 62" />
+          </svg>
+        </div>
+        <span class="profile-name">Guest</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B. Moran Password Prompt Modal -->
+  <div class="auth-modal-backdrop" id="pin-modal" onclick="if(event.target === this) closePinModal()">
+    <div class="auth-dialog" id="pin-dialog-box">
+      <div class="auth-dialog-icon">🔒</div>
+      <h2 class="auth-dialog-title">Profile Locked</h2>
+      <p class="auth-dialog-sub">Enter the password to access <strong id="pin-target-name">Moran</strong>'s profile.</p>
+      <input
+        type="password"
+        id="pin-input"
+        class="pin-input"
+        inputmode="numeric"
+        maxlength="12"
+        placeholder="••••••"
+        onkeydown="if(event.key === 'Enter') verifyPin()"
+      />
+      <div class="pin-error" id="pin-error"></div>
+      <div class="auth-actions">
+        <button class="btn-auth-secondary" onclick="closePinModal()">Cancel</button>
+        <button class="btn-auth-primary" onclick="verifyPin()">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2C. Restricted Content Notice Modal (for Guest clicking Hidden Gems) -->
+  <div class="auth-modal-backdrop" id="restricted-modal" onclick="if(event.target === this) closeRestrictedModal()">
+    <div class="auth-dialog">
+      <div class="auth-dialog-icon">💎🔒</div>
+      <h2 class="auth-dialog-title">Moran Only</h2>
+      <p class="auth-dialog-sub"><strong>Hidden Gems</strong> is an exclusive collection unlocked only on Moran's profile.</p>
+      <div class="auth-actions">
+        <button class="btn-auth-secondary" onclick="closeRestrictedModal()">Stay as Guest</button>
+        <button class="btn-auth-primary" onclick="promptMoranUnlockFromRestricted()">Unlock Moran</button>
+      </div>
     </div>
   </div>
 
@@ -891,6 +1248,11 @@
       <div class="logo" onclick="filterByTag('ALL')">MORANFLIX</div>
       <nav class="nav-tags" id="nav-tags"></nav>
     </div>
+    <button class="switch-profile-btn" onclick="openProfileGate()" title="Switch Profile">
+      <span id="nav-avatar-slot"></span>
+      <span class="switch-profile-name" id="nav-profile-name">Guest</span>
+      <span class="switch-caret">▾</span>
+    </button>
   </header>
 
   <!-- 4. Hero Section -->
@@ -943,6 +1305,10 @@
       </div>
     </div>
     <div class="iframe-wrapper" id="iframe-container">
+      <div class="player-poster-overlay" id="player-poster-overlay" onclick="startVideoPlayback()">
+        <img id="player-poster-img" src="" alt="" />
+        <div class="player-poster-play-btn">▶</div>
+      </div>
       <iframe id="video-frame" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
   </div>
@@ -950,13 +1316,19 @@
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwATotFt2Qaki4zlEa7FoWX_2wtSwZrOfg4IocrRvob__qlZbnKJIDNwPR8fPaekllM4Q/exec";
     const DRIVE_ROOT_FOLDER = "https://drive.google.com/drive/folders/15mV44pjDJ7XgUePFp9JNTf591sFYMAd_?usp=drive_link";
-    const CACHE_KEY = "moranflix_appdata_cache_v2";
+    const CACHE_KEY = "moranflix_appdata_cache_v3";
+    const LEGACY_CACHE_KEYS = ["moranflix_appdata_cache_v3", "moranflix_appdata_cache_v2", "moranflix_drive_index_v1"];
+    const MORAN_PIN = "311208";
 
     let catalogItems = [];
     let activePlaylist = [];
     let activeQueueIndex = 0;
     let currentFilterTag = "ALL";
     let introTimer = null;
+    let pendingEmbedUrl = "";
+    let resolvedProfiles = [];
+    let activeProfileIndex = 1;
+    let pendingProfileIndex = 0;
 
     const DEFAULT_HERO = {
       profileName: "Moran",
@@ -988,10 +1360,93 @@
       "perrigo.mp4": "1vIS9fS_S3vuIvZPgqxgbeTUr5V4dOBDq",
       "perrigo.jpg": "1p-nGkewiXmfKicg6UxKtZ-0jF0YCMY7Q",
       "1 second, everyday.mp4": "1PtQTx8G13YreBDDdUvyaFOS_IYdYrz7_",
-      "1 second, everyday.jpg": "1fItAeHDJfY9exloIi4iorSOw3AMVEDJV",
+      "1 second, everyday.jpeg": "1fItAeHDJfY9exloIi4iorSOw3AMVEDJV",
       "1 year anniversary.mp4": "1JuvyK13ajwlxG3IdgXLiFyuLiKIx8Xdg",
-      "1 year anniversary.jpg": "1tZM3HEZMlvQSMoKH-gXfwJh7VuaDQJJe"
+      "1 year anniversary.jpeg": "1tZM3HEZMlvQSMoKH-gXfwJh7VuaDQJJe"
     };
+
+    /* =========================================
+       PROFILE & ACCESS CONTROL HELPERS
+       ========================================= */
+    function isMoranUnlocked() {
+      const prof = resolvedProfiles[activeProfileIndex];
+      return prof && prof.name.trim().toLowerCase() === "moran";
+    }
+
+    function isHiddenGemItem(item) {
+      return (item.tags || []).some(t => t.trim().toLowerCase() === "hidden gems");
+    }
+
+    function handleProfileSelect(idx) {
+      const prof = resolvedProfiles[idx];
+      if (!prof) return;
+
+      if (prof.name.trim().toLowerCase() === "moran") {
+        pendingProfileIndex = idx;
+        openPinModal(prof.name);
+      } else {
+        activateProfile(idx);
+      }
+    }
+
+    function activateProfile(idx) {
+      activeProfileIndex = idx;
+      updateNavbarProfileBadge();
+      document.getElementById('profile-gate').classList.add('hidden');
+      renderRows(currentFilterTag);
+    }
+
+    function openProfileGate() {
+      document.getElementById('profile-gate').classList.remove('hidden');
+    }
+
+    function openPinModal(profileName) {
+      document.getElementById('pin-target-name').textContent = profileName || 'Moran';
+      const input = document.getElementById('pin-input');
+      input.value = '';
+      document.getElementById('pin-error').textContent = '';
+      document.getElementById('pin-modal').classList.add('open');
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closePinModal() {
+      document.getElementById('pin-modal').classList.remove('open');
+      document.getElementById('pin-input').value = '';
+      document.getElementById('pin-error').textContent = '';
+    }
+
+    function verifyPin() {
+      const input = document.getElementById('pin-input');
+      const errorEl = document.getElementById('pin-error');
+      const dialogBox = document.getElementById('pin-dialog-box');
+
+      if (input.value.trim() === MORAN_PIN) {
+        closePinModal();
+        activateProfile(pendingProfileIndex);
+      } else {
+        errorEl.textContent = 'Incorrect password. Please try again.';
+        input.value = '';
+        input.focus();
+        dialogBox.classList.remove('shake');
+        void dialogBox.offsetWidth;
+        dialogBox.classList.add('shake');
+      }
+    }
+
+    function openRestrictedModal() {
+      document.getElementById('restricted-modal').classList.add('open');
+    }
+
+    function closeRestrictedModal() {
+      document.getElementById('restricted-modal').classList.remove('open');
+    }
+
+    function promptMoranUnlockFromRestricted() {
+      closeRestrictedModal();
+      const moranIdx = resolvedProfiles.findIndex(p => p.name.trim().toLowerCase() === "moran");
+      pendingProfileIndex = moranIdx >= 0 ? moranIdx : 0;
+      openPinModal("Moran");
+    }
 
     /* =========================================
        INTRO SEQUENCE
@@ -1018,6 +1473,27 @@
       audio.pause();
       audio.currentTime = 0;
       document.getElementById('intro-screen').classList.add('fade-out');
+    }
+
+    /* =========================================
+       DRIVE FILE & THUMBNAIL RESOLUTION
+       ========================================= */
+    function getDriveThumbUrl(fileId, width = 800) {
+      if (!fileId) return '';
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${width}`;
+    }
+
+    function resolveFileIdWithFallback(driveIndex, baseNameLower, preferredExt, fallbackExts) {
+      if (preferredExt) {
+        const cleanPref = preferredExt.replace(/^\./, '').toLowerCase();
+        const exactMatch = driveIndex[`${baseNameLower}.${cleanPref}`];
+        if (exactMatch) return exactMatch;
+      }
+      for (const ext of fallbackExts) {
+        const found = driveIndex[`${baseNameLower}.${ext}`];
+        if (found) return found;
+      }
+      return driveIndex[baseNameLower] || null;
     }
 
     /* =========================================
@@ -1066,20 +1542,22 @@
           ? rawTags.split(',').map(t => t.trim()).filter(Boolean)
           : [];
 
-        const videoExt = (cols[3] || '').replace(/^\./, '').trim() || 'mp4';
-        const thumbExt = (cols[4] || '').replace(/^\./, '').trim() || 'jpg';
+        const videoExt = (cols[3] || '').replace(/^\./, '').trim();
+        const thumbExt = (cols[4] || '').replace(/^\./, '').trim();
         const seriesName = (cols[5] || '').replace(/^"|"$/g, '').trim();
 
-        const videoFilename = `${title}.${videoExt}`.toLowerCase();
-        const thumbFilename = `${title}.${thumbExt}`.toLowerCase();
+        const titleLower = title.toLowerCase();
+
+        const videoFileId = resolveFileIdWithFallback(driveIndex, titleLower, videoExt, ['mp4', 'mov', 'm4v', 'webm']);
+        const thumbFileId = resolveFileIdWithFallback(driveIndex, titleLower, thumbExt, ['jpg', 'jpeg', 'png', 'webp']);
 
         const clipObj = {
           title,
           subtitle,
           tags,
           seriesName,
-          videoFileId: driveIndex[videoFilename] || null,
-          thumbFileId: driveIndex[thumbFilename] || null
+          videoFileId,
+          thumbFileId
         };
 
         if (!seriesName) {
@@ -1094,7 +1572,7 @@
         } else {
           const seriesKey = seriesName.toLowerCase();
           if (!seriesMap.has(seriesKey)) {
-            const dedicatedCoverId = driveIndex[`${seriesKey}.jpg`] || driveIndex[`${seriesKey}.png`] || null;
+            const dedicatedCoverId = resolveFileIdWithFallback(driveIndex, seriesKey, '', ['jpg', 'jpeg', 'png', 'webp']);
             const seriesItem = {
               type: 'series',
               title: seriesName,
@@ -1128,31 +1606,39 @@
       return match ? match[1] : null;
     }
 
-    // Resolves either a full Drive URL, an external URL, or a filename inside Drive (e.g., "moran.jpg")
-    function resolveAssetUrl(src, driveIndex, sizeSuffix = "=w1600") {
+    function resolveAssetUrl(src, driveIndex, width = 1600) {
       if (!src) return '';
       const trimmed = src.trim();
       const driveIdFromUrl = extractDriveId(trimmed);
       if (driveIdFromUrl) {
-        return `https://lh3.googleusercontent.com/d/${driveIdFromUrl}${sizeSuffix}`;
+        return getDriveThumbUrl(driveIdFromUrl, width);
       }
       if (trimmed.startsWith('http')) {
         return trimmed;
       }
       const cleanName = trimmed.replace(/^\.?\//, '').toLowerCase();
       if (driveIndex[cleanName]) {
-        return `https://lh3.googleusercontent.com/d/${driveIndex[cleanName]}${sizeSuffix}`;
+        return getDriveThumbUrl(driveIndex[cleanName], width);
+      }
+      const baseWithoutExt = cleanName.replace(/\.[^.]+$/, '');
+      const fallbackId = resolveFileIdWithFallback(driveIndex, baseWithoutExt, '', ['jpg', 'jpeg', 'png', 'webp']);
+      if (fallbackId) {
+        return getDriveThumbUrl(fallbackId, width);
       }
       return trimmed;
     }
 
     function getCache() {
-      try {
-        const raw = localStorage.getItem(CACHE_KEY);
-        return raw ? JSON.parse(raw) : null;
-      } catch (_) {
-        return null;
+      for (const key of LEGACY_CACHE_KEYS) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.csv) return parsed;
+          }
+        } catch (_) {}
       }
+      return null;
     }
 
     function saveCache(data) {
@@ -1161,30 +1647,78 @@
       } catch (_) {}
     }
 
+    function updateNavbarProfileBadge() {
+      const prof = resolvedProfiles[activeProfileIndex] || resolvedProfiles[0];
+      if (!prof) return;
+
+      const slot = document.getElementById('nav-avatar-slot');
+      const nameEl = document.getElementById('nav-profile-name');
+      if (nameEl) nameEl.textContent = prof.name;
+
+      if (slot) {
+        slot.innerHTML = prof.resolvedAvatarUrl
+          ? `<img class="nav-avatar-thumb" src="${prof.resolvedAvatarUrl}" alt="${prof.name}" />`
+          : `<div class="nav-avatar-default">
+               <svg viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round">
+                 <circle cx="35" cy="38" r="4" fill="#ffffff" stroke="none" />
+                 <circle cx="65" cy="38" r="4" fill="#ffffff" stroke="none" />
+                 <path d="M 30 62 Q 50 78 70 62" />
+               </svg>
+             </div>`;
+      }
+    }
+
     function applyState(profilesData, csvText, driveIndex) {
       const hero = { ...DEFAULT_HERO, ...(profilesData && profilesData.hero ? profilesData.hero : {}) };
 
-      // Resolve profile picture (e.g., "moran.jpg" from Drive AppData)
-      const avatarUrl = resolveAssetUrl(hero.profileAvatar || "moran.jpg", driveIndex, "=w600");
-      if (avatarUrl) {
-        document.getElementById('gate-avatar').src = avatarUrl;
+      const rawProfiles = (profilesData && Array.isArray(profilesData.profiles) && profilesData.profiles.length > 0)
+        ? profilesData.profiles
+        : [
+            { name: hero.profileName || "Moran", avatar: hero.profileAvatar || "moran.jpg" },
+            { name: "Guest", avatar: "" }
+          ];
+
+      resolvedProfiles = rawProfiles.map(prof => ({
+        name: prof.name,
+        resolvedAvatarUrl: prof.avatar ? resolveAssetUrl(prof.avatar, driveIndex, 600) : ''
+      }));
+
+      if (!resolvedProfiles[activeProfileIndex]) {
+        const guestIdx = resolvedProfiles.findIndex(p => p.name.trim().toLowerCase() !== "moran");
+        activeProfileIndex = guestIdx >= 0 ? guestIdx : 0;
       }
-      document.getElementById('gate-name').textContent = hero.profileName;
-      document.getElementById('hero-section').style.backgroundImage = `url('${resolveAssetUrl(hero.bannerImage, driveIndex, "=w1600")}')`;
+
+      const gridEl = document.getElementById('profiles-grid');
+      if (gridEl) {
+        gridEl.innerHTML = resolvedProfiles.map((prof, idx) => {
+          const isMoran = prof.name.trim().toLowerCase() === "moran";
+          const lockBadge = isMoran ? `<span class="profile-lock-icon">🔒</span>` : '';
+          const avatarHtml = prof.resolvedAvatarUrl
+            ? `<img class="profile-avatar" src="${prof.resolvedAvatarUrl}" alt="${prof.name}" />`
+            : `<div class="default-avatar-box">
+                 <svg viewBox="0 0 100 100" width="95" height="95" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round">
+                   <circle cx="35" cy="38" r="4" fill="#ffffff" stroke="none" />
+                   <circle cx="65" cy="38" r="4" fill="#ffffff" stroke="none" />
+                   <path d="M 30 62 Q 50 78 70 62" />
+                 </svg>
+               </div>`;
+
+          return `
+            <div class="profile-card" onclick="handleProfileSelect(${idx})">
+              ${avatarHtml}
+              <span class="profile-name">${prof.name} ${lockBadge}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      updateNavbarProfileBadge();
+
+      document.getElementById('hero-section').style.backgroundImage = `url('${resolveAssetUrl(hero.bannerImage, driveIndex, 1600)}')`;
       document.getElementById('hero-badge').textContent = hero.badge;
       document.getElementById('hero-title').textContent = hero.title;
       document.getElementById('hero-meta').textContent = hero.meta;
       document.getElementById('hero-desc').textContent = hero.description;
-
-      // Resolve intro audio (tada.mp3 from Drive AppData)
-      const tadaId = driveIndex["tada.mp3"];
-      const audioEl = document.getElementById('intro-audio');
-      if (tadaId) {
-        const driveAudioUrl = `https://drive.google.com/uc?export=download&id=${tadaId}`;
-        if (audioEl.src !== driveAudioUrl) {
-          audioEl.src = driveAudioUrl;
-        }
-      }
 
       if (csvText) {
         catalogItems = parseContentCsvToCatalog(csvText, driveIndex);
@@ -1194,33 +1728,32 @@
     }
 
     async function init() {
-      // 1. Instant render from localStorage cache if available
       const cached = getCache();
       if (cached) {
         const cachedIndex = { ...BUILTIN_DRIVE_INDEX, ...(cached.index || {}) };
         applyState(cached.profiles, cached.csv, cachedIndex);
       }
 
-      // 2. Fetch live AppData (profiles.json, content.csv, index) from Google Apps Script
       try {
-        const res = await fetch(APPS_SCRIPT_URL);
+        const res = await fetch(`${APPS_SCRIPT_URL}?t=${Date.now()}`);
         if (!res.ok) throw new Error(`Apps Script HTTP ${res.status}`);
         const payload = await res.json();
 
-        // Support both new payload format ({ index, profiles, csv }) and legacy flat index
         const rawIndex = payload.index ? payload.index : payload;
         const mergedIndex = { ...BUILTIN_DRIVE_INDEX, ...rawIndex };
         const profilesData = payload.profiles || (cached && cached.profiles) || null;
         const csvText = payload.csv || (cached && cached.csv) || null;
 
-        saveCache({ index: mergedIndex, profiles: profilesData, csv: csvText });
+        if (csvText) {
+          saveCache({ index: mergedIndex, profiles: profilesData, csv: csvText });
+        }
         applyState(profilesData, csvText, mergedIndex);
 
         if (!csvText) {
           document.getElementById('rows-container').innerHTML =
             `<div style="padding: 2rem 4%; color: #e50914; background: rgba(0,0,0,0.7); border-radius: 8px; margin: 0 4%;">
               <h3>content.csv not found in Drive</h3>
-              <p style="color: #ccc; margin-top: 0.5rem;">Make sure <code>content.csv</code> is uploaded inside <code>40_Clip/AppData</code> in Google Drive and that your Apps Script deployment was updated to a New Version.</p>
+              <p style="color: #ccc; margin-top: 0.5rem;">Make sure <code>content.csv</code> is uploaded inside <code>AppData</code> in Google Drive and that your Apps Script deployment was updated to a New Version.</p>
             </div>`;
         }
       } catch (err) {
@@ -1233,10 +1766,6 @@
             </div>`;
         }
       }
-    }
-
-    function enterApp() {
-      document.getElementById('profile-gate').classList.add('hidden');
     }
 
     function getAllUniqueTags() {
@@ -1270,10 +1799,19 @@
       scroller.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
 
+    function buildImgTag(fileId, altText, width, extraClass = '') {
+      if (!fileId) return '';
+      const primaryUrl = getDriveThumbUrl(fileId, width);
+      const fallbackUrl = `https://lh3.googleusercontent.com/d/${fileId}=w${width}`;
+      const classAttr = extraClass ? `class="${extraClass}"` : '';
+      return `<img ${classAttr} src="${primaryUrl}" alt="${altText}" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='${fallbackUrl}';}else{this.remove();}" />`;
+    }
+
     function renderRows(filterTag) {
       const container = document.getElementById('rows-container');
       container.innerHTML = '';
 
+      const moranAccess = isMoranUnlocked();
       const isSingleCategory = filterTag !== 'ALL';
       const tagsToRender = isSingleCategory ? [filterTag] : getAllUniqueTags();
 
@@ -1295,28 +1833,41 @@
 
         if (matchingItems.length === 0) return;
 
+        const isHiddenGemsRow = tag.trim().toLowerCase() === "hidden gems";
+        const rowLockIcon = (isHiddenGemsRow && !moranAccess) ? ' <span style="font-size:1rem;">🔒</span>' : '';
+
         const rowEl = document.createElement('section');
         rowEl.className = 'row';
 
         const cardsHtml = matchingItems.map(item => {
           const tagsText = (item.tags || []).join(' • ');
-          const imgHtml = item.thumbFileId
-            ? `<img class="clip-thumb" src="https://lh3.googleusercontent.com/d/${item.thumbFileId}=w800" alt="${item.title}" loading="lazy" onerror="this.remove()" />`
-            : '';
-
+          const isLocked = isHiddenGemItem(item) && !moranAccess;
           const isSeries = item.type === 'series';
+
+          const imgHtml = isLocked
+            ? ''
+            : buildImgTag(item.thumbFileId, item.title, 800, 'clip-thumb');
+
           const badgeHtml = isSeries
             ? `<div class="series-badge">Series • ${item.episodes.length} Episodes</div>`
             : '';
-          const subText = isSeries
-            ? `${item.episodes.length} Episodes`
-            : (item.subtitle || '');
+
+          const lockedPillHtml = isLocked
+            ? `<div class="locked-pill">🔒 Moran Only</div>`
+            : '';
+
+          const subText = isLocked
+            ? 'Locked • Moran Only'
+            : (isSeries ? `${item.episodes.length} Episodes` : (item.subtitle || ''));
+
+          const centerIcon = isLocked ? '🔒' : (isSeries ? '☰' : '▶');
 
           return `
-            <div class="clip-card" onclick="handleCardClick(${item.originalIndex})">
+            <div class="clip-card ${isLocked ? 'locked-card' : ''}" onclick="handleCardClick(${item.originalIndex})">
               ${badgeHtml}
+              ${lockedPillHtml}
               ${imgHtml}
-              <div class="play-icon-badge">${isSeries ? '☰' : '▶'}</div>
+              <div class="play-icon-badge">${centerIcon}</div>
               <div class="clip-overlay">
                 <div class="clip-title">${item.title}</div>
                 <div class="clip-sub">${subText}</div>
@@ -1333,7 +1884,7 @@
              <button class="scroll-arrow right" onclick="scrollRow(this, 1)" aria-label="Scroll right">›</button>`;
 
         rowEl.innerHTML = `
-          <h2 class="row-title">${tag}</h2>
+          <h2 class="row-title">${tag}${rowLockIcon}</h2>
           <div class="row-wrapper">
             ${arrowsHtml}
             <div class="${scrollerClass}">${cardsHtml}</div>
@@ -1347,11 +1898,17 @@
       const item = catalogItems[index];
       if (!item) return;
 
+      if (isHiddenGemItem(item) && !isMoranUnlocked()) {
+        openRestrictedModal();
+        return;
+      }
+
       if (item.type === 'series') {
         openSeriesModal(item);
       } else {
+        const moranAccess = isMoranUnlocked();
         const standaloneQueue = catalogItems
-          .filter(i => i.type === 'single')
+          .filter(i => i.type === 'single' && (moranAccess || !isHiddenGemItem(i)))
           .map(i => i.clip);
         const queueIdx = standaloneQueue.findIndex(c => c.title === item.clip.title);
         openPlayerWithQueue(standaloneQueue, Math.max(0, queueIdx), false);
@@ -1362,22 +1919,25 @@
        SERIES MODAL FUNCTIONS
        ========================================= */
     function openSeriesModal(seriesItem) {
+      if (isHiddenGemItem(seriesItem) && !isMoranUnlocked()) {
+        openRestrictedModal();
+        return;
+      }
+
       document.getElementById('series-modal-title').textContent = seriesItem.title;
       document.getElementById('series-modal-meta').textContent =
         `${seriesItem.episodes.length} Episodes • ${(seriesItem.tags || []).join(' • ')}`;
 
       const bannerEl = document.getElementById('series-banner');
       if (seriesItem.thumbFileId) {
-        bannerEl.style.backgroundImage = `url('https://lh3.googleusercontent.com/d/${seriesItem.thumbFileId}=w1200')`;
+        bannerEl.style.backgroundImage = `url('${getDriveThumbUrl(seriesItem.thumbFileId, 1200)}')`;
       } else {
         bannerEl.style.backgroundImage = 'linear-gradient(135deg, #2b2b2b 0%, #141414 100%)';
       }
 
       const listEl = document.getElementById('episodes-list');
       listEl.innerHTML = seriesItem.episodes.map((ep, idx) => {
-        const thumbHtml = ep.thumbFileId
-          ? `<img src="https://lh3.googleusercontent.com/d/${ep.thumbFileId}=w400" alt="${ep.title}" loading="lazy" onerror="this.remove()" />`
-          : '';
+        const thumbHtml = buildImgTag(ep.thumbFileId, ep.title, 400);
 
         return `
           <div class="episode-row" onclick="playSeriesEpisode('${seriesItem.title.replace(/'/g, "\\'")}', ${idx})">
@@ -1404,6 +1964,10 @@
     function playSeriesEpisode(seriesTitle, epIndex) {
       const seriesItem = catalogItems.find(i => i.type === 'series' && i.title === seriesTitle);
       if (!seriesItem) return;
+      if (isHiddenGemItem(seriesItem) && !isMoranUnlocked()) {
+        openRestrictedModal();
+        return;
+      }
       openPlayerWithQueue(seriesItem.episodes, epIndex, true);
     }
 
@@ -1430,16 +1994,44 @@
       document.getElementById('modal-title').textContent = prefix + clip.title;
       document.getElementById('modal-subtitle').textContent = clip.subtitle || '';
 
-      const embedUrl = clip.videoFileId
-        ? `https://drive.google.com/file/d/${clip.videoFileId}/preview`
+      pendingEmbedUrl = clip.videoFileId
+        ? `https://drive.google.com/file/d/${clip.videoFileId}/preview?autoplay=1`
         : DRIVE_ROOT_FOLDER;
 
-      document.getElementById('video-frame').src = embedUrl;
+      const posterOverlay = document.getElementById('player-poster-overlay');
+      const posterImg = document.getElementById('player-poster-img');
+      const videoFrame = document.getElementById('video-frame');
+
+      videoFrame.src = '';
+
+      if (clip.thumbFileId) {
+        posterImg.dataset.fb = '';
+        posterImg.src = getDriveThumbUrl(clip.thumbFileId, 1280);
+        posterImg.alt = clip.title;
+        posterImg.onerror = () => {
+          if (!posterImg.dataset.fb) {
+            posterImg.dataset.fb = '1';
+            posterImg.src = `https://lh3.googleusercontent.com/d/${clip.thumbFileId}=w1280`;
+          } else {
+            startVideoPlayback();
+          }
+        };
+        posterOverlay.classList.add('visible');
+      } else {
+        startVideoPlayback();
+      }
+    }
+
+    function startVideoPlayback() {
+      document.getElementById('player-poster-overlay').classList.remove('visible');
+      document.getElementById('video-frame').src = pendingEmbedUrl;
     }
 
     function closePlayerModal() {
       document.getElementById('player-modal').classList.remove('open');
+      document.getElementById('player-poster-overlay').classList.remove('visible');
       document.getElementById('video-frame').src = '';
+      pendingEmbedUrl = '';
     }
 
     function playFirstItem() {
@@ -1475,7 +2067,11 @@
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (document.getElementById('player-modal').classList.contains('open')) {
+        if (document.getElementById('pin-modal').classList.contains('open')) {
+          closePinModal();
+        } else if (document.getElementById('restricted-modal').classList.contains('open')) {
+          closeRestrictedModal();
+        } else if (document.getElementById('player-modal').classList.contains('open')) {
           closePlayerModal();
         } else if (document.getElementById('series-modal').classList.contains('open')) {
           closeSeriesModal();
