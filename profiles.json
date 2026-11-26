@@ -1,0 +1,21 @@
+{
+  "profiles": [
+    {
+      "name": "Moran",
+      "avatar": "moran.jpg"
+    },
+    {
+      "name": "Guest",
+      "avatar": ""
+    }
+  ],
+  "hero": {
+    "profileName": "Moran",
+    "profileAvatar": "moran.jpg",
+    "bannerImage": "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1600&q=80",
+    "badge": "MORANFLIX ORIGINAL • 40TH SPECIAL",
+    "title": "Season 40: The Legend Continues",
+    "meta": "99% Match • 2026 • All Ages • HD",
+    "description": "Four decades of unforgettable moments, laughter, and love. Friends and family from around the world gather for one iconic birthday special."
+  }
+}

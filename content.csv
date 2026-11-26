@@ -1,0 +1,46 @@
+# Format: title, subtitle, [tag1, tag2], video_ext (default mp4), thumb_ext (default jpg), series (optional)
+Neta, Rank 1 in your region, [Family, Us], , ,
+Amit, 100% match, [Family, Us], , ,
+Prague 2016, , [Documentary, Trips], , ,
+Italy 2014, , [Documentary, Us, Trips], , ,
+Paris 2014, , [Documentary, Family, Trips], , ,
+Berlin 2011, , [Documentary, Us, Trips], , ,
+Netherlands 2010, , [Documentary, Family, Trips], , ,
+Haifa 2009, , [Documentary, Trips], , ,
+Burgas 2009, , [Documentary, Trips], , ,
+Perrigo, , [Documentary], , ,
+Army, , [Documentary], , ,
+"1 Second, Everyday", , [Hidden Gems], , ,
+1 Year Anniversary, , [Hidden Gems], , ,
+
+#Friends
+Leibou, , [Friends, TLV], , ,
+Nur, , [Friends, TLV], , ,
+#Weil, , [Friends, TLV], , ,
+Stella Goichman, , [Friends], , ,
+Tal Kliger, , [Friends], , ,
+Merav Ben Ari, , [Friends], , ,
+Kagan, , [Friends, Tel Mond], , ,
+#Kordova, , [Friends, Tel Mond], , ,
+#Dagan, , [Friends, Tel Mond], , ,
+#Levin, , [Friends, Tel Mond], , ,
+#Gutman, , [Friends, Tel Mond], , ,
+Tidhar, , [Friends, Tel Mond], , ,
+Goncharov, , [Friends, Holland], , ,
+#Miron, , [Friends, Holland], , ,
+#Tamara, , [Friends, Holland], , ,
+#Hodeda, , [Friends, Holland], , ,
+Eduard, , [Friends], , ,
+
+#Family
+Drora & Eli, , [Family], , ,
+
+# "The Wedding":
+Photoshoots, Episode 1 • Strike a Pose, [Family, Us], , , The Wedding
+Before, Episode 2 • The Calm Before the Party, [Family, Us], , , The Wedding
+Ketubah, Episode 3 • Making It Official, [Family, Us], , , The Wedding
+Chuppah, Episode 4 • Under the Chuppah, [Family, Us], , , The Wedding
+The Party, Episode 5 • Dancing All Night, [Family, Us], , , The Wedding
+Summary, Episode 6 • The Best Moments, [Family, Us], , , The Wedding
+Short Clip, Episode 7 • The Grand Finale, [Family, Us], , , The Wedding
+Family Clip, Episode 8 • Bonus Content, [Family, Us], , , The Wedding
