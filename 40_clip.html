@@ -542,7 +542,6 @@
       transform: scale(1.1);
     }
 
-    /* Layer 2: Centered full uncropped image with soft feathered borders on all 4 sides */
     /* Layer 2: Centered actual <img> so the mask hugs the exact image edges */
     .hero-bg-sharp {
       position: absolute;
@@ -1264,9 +1263,8 @@
       .clip-card { flex: 0 0 210px; }
       .hero { height: 68vh; }
       .hero-bg-sharp {
-        width: 96%;
-        top: 2%;
-        bottom: 8%;
+        max-width: 95%;
+        max-height: 85%;
       }
       .hero-indicators { bottom: 72px; }
       .nav-tags { display: none; }
@@ -1305,7 +1303,7 @@
     <h1 class="gate-title">Who's Watching?</h1>
     <div class="profiles-grid" id="profiles-grid">
       <div class="profile-card" onclick="handleProfileSelect(0)">
-        <img class="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Moran" />
+        <img class="profile-avatar" src="moran.jpg" alt="Moran" />
         <span class="profile-name">Moran <span class="profile-lock-icon">🔒</span></span>
       </div>
       <div class="profile-card" onclick="handleProfileSelect(1)">
@@ -1445,8 +1443,8 @@
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwATotFt2Qaki4zlEa7FoWX_2wtSwZrOfg4IocrRvob__qlZbnKJIDNwPR8fPaekllM4Q/exec";
     const DRIVE_ROOT_FOLDER = "https://drive.google.com/drive/folders/15mV44pjDJ7XgUePFp9JNTf591sFYMAd_?usp=drive_link";
-    const CACHE_KEY = "moranflix_appdata_cache_v3";
-    const LEGACY_CACHE_KEYS = ["moranflix_appdata_cache_v3", "moranflix_appdata_cache_v2", "moranflix_drive_index_v1"];
+    const CACHE_KEY = "moranflix_drive_index_v4";
+    const LEGACY_CACHE_KEYS = ["moranflix_drive_index_v4", "moranflix_appdata_cache_v3", "moranflix_appdata_cache_v2", "moranflix_drive_index_v1"];
     const MORAN_PIN = "311208";
     const HERO_ROTATE_MS = 7000;
 
@@ -1898,6 +1896,10 @@
         return trimmed;
       }
       const cleanName = trimmed.replace(/^\.?\//, '').toLowerCase();
+      // Local repo asset (moran.jpg) loads directly from GitHub Pages
+      if (cleanName === 'moran.jpg') {
+        return 'moran.jpg';
+      }
       if (driveIndex[cleanName]) {
         return getDriveThumbUrl(driveIndex[cleanName], width);
       }
@@ -1909,13 +1911,13 @@
       return trimmed;
     }
 
-    function getCache() {
+    function getCachedIndex() {
       for (const key of LEGACY_CACHE_KEYS) {
         try {
           const raw = localStorage.getItem(key);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (parsed && parsed.csv) return parsed;
+            if (parsed && parsed.index) return parsed.index;
           }
         } catch (_) {}
       }
@@ -2010,12 +2012,29 @@
     }
 
     async function init() {
-      const cached = getCache();
-      if (cached) {
-        const cachedIndex = { ...BUILTIN_DRIVE_INDEX, ...(cached.index || {}) };
-        applyState(cached.profiles, cached.csv, cachedIndex);
+      let localProfiles = null;
+      let localCsv = null;
+
+      // 1. Load profiles.json and content.csv directly from GitHub Pages
+      try {
+        const [profRes, csvRes] = await Promise.all([
+          fetch(`profiles.json?t=${Date.now()}`),
+          fetch(`content.csv?t=${Date.now()}`)
+        ]);
+        if (profRes.ok) localProfiles = await profRes.json();
+        if (csvRes.ok) localCsv = await csvRes.text();
+      } catch (err) {
+        console.warn('Local repo config fetch warning:', err);
       }
 
+      // Render immediately using cached Drive index while fresh index loads
+      const cachedIndex = getCachedIndex();
+      const initialIndex = { ...BUILTIN_DRIVE_INDEX, ...(cachedIndex || {}) };
+      if (localCsv || localProfiles) {
+        applyState(localProfiles, localCsv, initialIndex);
+      }
+
+      // 2. Fetch fresh video & thumbnail File IDs from Google Drive
       try {
         const res = await fetch(`${APPS_SCRIPT_URL}?t=${Date.now()}`);
         if (!res.ok) throw new Error(`Apps Script HTTP ${res.status}`);
@@ -2023,27 +2042,25 @@
 
         const rawIndex = payload.index ? payload.index : payload;
         const mergedIndex = { ...BUILTIN_DRIVE_INDEX, ...rawIndex };
-        const profilesData = payload.profiles || (cached && cached.profiles) || null;
-        const csvText = payload.csv || (cached && cached.csv) || null;
+        const finalProfiles = localProfiles || payload.profiles || null;
+        const finalCsv = localCsv || payload.csv || null;
 
-        if (csvText) {
-          saveCache({ index: mergedIndex, profiles: profilesData, csv: csvText });
-        }
-        applyState(profilesData, csvText, mergedIndex);
+        saveCache({ index: mergedIndex });
+        applyState(finalProfiles, finalCsv, mergedIndex);
 
-        if (!csvText) {
+        if (!finalCsv) {
           document.getElementById('rows-container').innerHTML =
             `<div style="padding: 2rem 4%; color: #e50914; background: rgba(0,0,0,0.7); border-radius: 8px; margin: 0 4%;">
-              <h3>content.csv not found in Drive</h3>
-              <p style="color: #ccc; margin-top: 0.5rem;">Make sure <code>content.csv</code> is uploaded inside <code>AppData</code> in Google Drive and that your Apps Script deployment was updated to a New Version.</p>
+              <h3>content.csv not found</h3>
+              <p style="color: #ccc; margin-top: 0.5rem;">Make sure <code>content.csv</code> is committed to your GitHub repository.</p>
             </div>`;
         }
       } catch (err) {
-        console.error('Error syncing with Google Drive:', err);
-        if (!cached) {
+        console.error('Error syncing media index with Google Drive:', err);
+        if (!localCsv) {
           document.getElementById('rows-container').innerHTML =
             `<div style="padding: 2rem 4%; color: #e50914; background: rgba(0,0,0,0.7); border-radius: 8px; margin: 0 4%;">
-              <h3>Error connecting to Google Drive AppData</h3>
+              <h3>Error connecting to Google Drive</h3>
               <p style="color: #888; font-size: 0.85rem; margin-top: 0.5rem;">Details: ${err.message}</p>
             </div>`;
         }
